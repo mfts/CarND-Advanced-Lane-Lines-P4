@@ -24,6 +24,7 @@ I start by creating object points with 3-dimensional coordinates. However becaus
 
 I run a OpenCV function `findChessboardCorners` in order to detect corners between black and white squares of the chessboard. Everytime corners are found it will be appended to to an _objectpoints_ array. Similarly, with every found corner a two coordinates in pixel position will be appeneded to an _imagepoints_ array.
 Here is a result of the chessboard images with corners:
+
 ![alt text][chessboard_image_corners]
 
 With the help of these object- and imagepoints arrays I can run a calibration function `cv2.calibrateCamera()` on an image taken with the same camera. Finally I use the calibration matrix (optionally also radial and tangetial vectors) to correct my image for camera distortions `cv2.undistort()`. 
@@ -31,10 +32,12 @@ With the help of these object- and imagepoints arrays I can run a calibration fu
 ### B. Pipeline (single images)
 ##### 1. Provide an example of a distortion-correction image
 And here is a result of an undistorted street image:
+
 ![alt text][undistorted_image]
 
 ##### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a threshold binary image. Provide an example of a binary image result
 From the lecture I saw how to use Sobel gradients used in Canny Edge detections. However, I wanted to test a pure color space approach. I tested around with color channels I've previously not heard of such as HSV/HSL-Spaces, LUV-Space and Lab-Space. I landed on utilizing only LUV and Lab because they both identified the **white** and **yellow** lines, respectively better than the RGB-Color Space for example. The pipeline fuction for applying a binary threshold to an image is called **apply_binary()**.
+
 ![alt text][binary_image]
 
 ##### 3. Desribe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
@@ -48,6 +51,7 @@ dst = np.float32(
 ```
 These are the source and destination rectangles for the image. All images used were 1280x720 pixels.
 I set the rectangle on the straight test images and then applied it to all test images. Here's a look at a straight and curved test image:
+
 ![alt text][warped_straight_image]
 ![alt text][warped_curved_image]
 
@@ -63,17 +67,21 @@ xmeter = 3.7/700
 ```
 
 Then I calculate the radius of the curvature
+
 ![alt text][equation_radius_curvature]
 
 Then use the binary image and warp the image back into the regular point-of-view and finally annotate the image with the radius and vehicle position.
 
 ##### 6. Provide an example image of your plotted back down onto the road such that the lane area is identified clearly.
 And here is a result of a mapped lane area:
+
 ![alt text][lane_area_image]
 
 ### C. Pipeline (video)
 ##### 1. Provide a link to your final video output. Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+
 Here's a link to my final [**video result**][video result]: 
+
 Here's a link to my result on the [**challenge video**][challenge result]: 
 
 Unfortunately, the lines on **harder challenge video** were too wobbly. But I would like to take that opportunity and continue it in the discussion below.
